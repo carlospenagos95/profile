@@ -1,0 +1,3 @@
+// Orden de cascada explícito. Debe emitirse antes que cualquier otra regla:
+// lo declarado en una capa posterior siempre gana, sin importar la especificidad.
+@layer reset, tokens, base, components, utilities;

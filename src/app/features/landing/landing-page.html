@@ -1,0 +1,38 @@
+<app-hero
+  [profile]="content.profile"
+  [ctaPrimaryLabel]="content.copy.hero.ctaPrimary"
+  [ctaSecondaryLabel]="content.copy.hero.ctaSecondary"
+/>
+
+<app-services-section
+  appRevealOnScroll
+  [services]="content.services"
+  [eyebrow]="content.copy.services.eyebrow"
+  [title]="content.copy.services.title"
+  [lead]="content.copy.services.lead"
+/>
+
+<app-technologies-section
+  appRevealOnScroll
+  [groups]="content.technologyGroups"
+  [levelLabels]="levelLabels"
+  [eyebrow]="content.copy.technologies.eyebrow"
+  [title]="content.copy.technologies.title"
+  [lead]="content.copy.technologies.lead"
+/>
+
+<app-hobbies-section
+  appRevealOnScroll
+  [hobbies]="content.hobbies"
+  [eyebrow]="content.copy.hobbies.eyebrow"
+  [title]="content.copy.hobbies.title"
+  [lead]="content.copy.hobbies.lead"
+/>
+
+<app-contact-section
+  appRevealOnScroll
+  [links]="content.socialLinks"
+  [eyebrow]="content.copy.contact.eyebrow"
+  [title]="content.copy.contact.title"
+  [lead]="content.copy.contact.lead"
+/>

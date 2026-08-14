@@ -1,0 +1,13 @@
+# Nada de esto interviene en `npm run build`: fuera del contexto de construcción.
+node_modules
+dist
+.git
+.github
+.angular
+docs
+*.md
+.vscode
+.editorconfig
+Dockerfile
+.dockerignore
+docker-compose.yml

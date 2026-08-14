@@ -1,0 +1,28 @@
+name: CI
+
+# Solo pull requests: los push a main los valida el workflow Deploy antes de publicar.
+on:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run format:check
+
+      - run: npm run lint
+
+      - run: npm test
+
+      # Incluye el prerender: si alguna API de navegador se cuela fuera de
+      # `isPlatformBrowser`, este paso falla.
+      - run: npm run build

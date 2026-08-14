@@ -1,0 +1,31 @@
+<div class="container header__inner">
+  <a class="header__brand" href="#inicio" (click)="closeMenu()">{{ brand() }}</a>
+
+  <button
+    type="button"
+    class="header__toggle"
+    [attr.aria-expanded]="menuOpen()"
+    aria-controls="nav-principal"
+    [attr.aria-label]="menuLabel()"
+    (click)="toggleMenu()"
+  >
+    <app-icon [name]="menuOpen() ? 'close' : 'menu'" />
+  </button>
+
+  <nav id="nav-principal" class="header__nav" [class.header__nav--open]="menuOpen()">
+    <ul class="header__list">
+      @for (section of sections(); track section.id) {
+        <li>
+          <a
+            class="header__link"
+            [href]="'#' + section.id"
+            [class.header__link--active]="activeId() === section.id"
+            [attr.aria-current]="activeId() === section.id ? 'true' : null"
+            (click)="closeMenu()"
+            >{{ section.label }}</a
+          >
+        </li>
+      }
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,37 @@
+<section id="tecnologias" class="section" aria-labelledby="tecnologias-titulo">
+  <div class="container">
+    <app-section-heading
+      headingId="tecnologias-titulo"
+      [eyebrow]="eyebrow()"
+      [title]="title()"
+      [lead]="lead()"
+    />
+
+    <div class="groups">
+      @for (group of groups(); track group.id) {
+        <section class="group" [attr.aria-labelledby]="'grupo-' + group.id">
+          <h3 class="group__label" [id]="'grupo-' + group.id">
+            <span class="group__icon">
+              <app-icon [name]="group.icon" />
+            </span>
+            {{ group.label }}
+          </h3>
+
+          <ul class="group__items">
+            @for (item of group.items; track item.name) {
+              <li class="tech">
+                <span class="tech__name">{{ item.name }}</span>
+                <span class="tech__level" [attr.data-level]="item.level">
+                  {{ levelLabels()[item.level] }}
+                </span>
+                @if (item.note; as note) {
+                  <span class="tech__note">{{ note }}</span>
+                }
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </div>
+  </div>
+</section>

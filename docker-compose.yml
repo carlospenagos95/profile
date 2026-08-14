@@ -1,0 +1,24 @@
+# Compose que corre EN EL SERVIDOR. El workflow lo copia y ejecuta `docker compose up -d`.
+# No construye nada: solo baja la imagen ya publicada en GHCR.
+services:
+  profile:
+    image: ${IMAGE:-ghcr.io/carlospenagos95/personal-landing:latest}
+    container_name: profile-carlos-po
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      traefik.enable: 'true'
+      # Red por la que Traefik alcanza al contenedor (obligatorio si hay varias).
+      traefik.docker.network: ${TRAEFIK_NETWORK:-traefik}
+      traefik.http.routers.profile.rule: Host(`profile.carlos-po.dev`)
+      traefik.http.routers.profile.entrypoints: ${TRAEFIK_ENTRYPOINT:-websecure}
+      traefik.http.routers.profile.tls: 'true'
+      traefik.http.routers.profile.tls.certresolver: ${TRAEFIK_CERTRESOLVER:-letsencrypt}
+      # Puerto interno del contenedor, no publicado en el host.
+      traefik.http.services.profile.loadbalancer.server.port: '80'
+
+networks:
+  traefik:
+    external: true
+    name: ${TRAEFIK_NETWORK:-traefik}

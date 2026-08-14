@@ -1,0 +1,32 @@
+<section id="contacto" class="section" aria-labelledby="contacto-titulo">
+  <div class="container">
+    <app-section-heading
+      headingId="contacto-titulo"
+      [eyebrow]="eyebrow()"
+      [title]="title()"
+      [lead]="lead()"
+    />
+
+    <ul class="contact">
+      @for (link of links(); track link.id) {
+        <li>
+          <a
+            class="card contact__link"
+            [href]="link.href"
+            [attr.target]="isExternal(link) ? '_blank' : null"
+            [attr.rel]="isExternal(link) ? 'noopener noreferrer' : null"
+          >
+            <span class="contact__icon">
+              <app-icon [name]="link.icon" />
+            </span>
+            <span class="contact__text">
+              <span class="contact__label">{{ link.label }}</span>
+              <span class="contact__handle">{{ link.handle }}</span>
+            </span>
+            <app-icon [name]="isExternal(link) ? 'external-link' : 'arrow-right'" />
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
