@@ -2,23 +2,22 @@
 # No construye nada: solo baja la imagen ya publicada en GHCR.
 services:
   profile:
-    image: ${IMAGE:-ghcr.io/carlospenagos95/personal-landing:latest}
+    image: ${IMAGE}
     container_name: profile-carlos-po
     restart: unless-stopped
     networks:
-      - traefik
+      - proxy
+
+    security_opt:
+      - no-new-privileges:true
+
     labels:
       traefik.enable: 'true'
-      # Red por la que Traefik alcanza al contenedor (obligatorio si hay varias).
-      traefik.docker.network: ${TRAEFIK_NETWORK:-traefik}
+      traefik.docker.network: proxy
       traefik.http.routers.profile.rule: Host(`profile.carlos-po.dev`)
-      traefik.http.routers.profile.entrypoints: ${TRAEFIK_ENTRYPOINT:-websecure}
-      traefik.http.routers.profile.tls: 'true'
-      traefik.http.routers.profile.tls.certresolver: ${TRAEFIK_CERTRESOLVER:-letsencrypt}
-      # Puerto interno del contenedor, no publicado en el host.
+      traefik.http.routers.profile.entrypoints: web
       traefik.http.services.profile.loadbalancer.server.port: '80'
 
 networks:
-  traefik:
+  proxy:
     external: true
-    name: ${TRAEFIK_NETWORK:-traefik}

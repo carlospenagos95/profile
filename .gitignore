@@ -28,3 +28,4 @@ yarn-debug.log*
 yarn-error.log*
 /.vs/04-landing-page
 /.vs
+/.vs/slnx.sqlite
