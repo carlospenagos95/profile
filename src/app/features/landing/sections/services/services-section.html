@@ -1,0 +1,22 @@
+<section id="servicios" class="section section--sunken" aria-labelledby="servicios-titulo">
+  <div class="container">
+    <app-section-heading
+      headingId="servicios-titulo"
+      [eyebrow]="eyebrow()"
+      [title]="title()"
+      [lead]="lead()"
+    />
+
+    <ul class="services">
+      @for (service of services(); track service.id) {
+        <li class="card service">
+          <span class="service__icon">
+            <app-icon [name]="service.icon" />
+          </span>
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.description }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

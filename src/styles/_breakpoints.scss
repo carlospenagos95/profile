@@ -1,0 +1,18 @@
+// Mixins mobile-first. Único uso de SCSS que no puede resolver el CSS nativo:
+// las media queries no aceptan custom properties.
+$sm: 480px; // móvil grande
+$md: 768px; // tablet
+$lg: 1024px; // laptop
+$xl: 1440px; // desktop
+
+@mixin from($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}

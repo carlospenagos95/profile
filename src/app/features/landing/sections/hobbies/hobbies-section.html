@@ -1,0 +1,23 @@
+<section id="hobbies" class="section section--sunken" aria-labelledby="hobbies-titulo">
+  <div class="container">
+    <app-section-heading
+      headingId="hobbies-titulo"
+      [eyebrow]="eyebrow()"
+      [title]="title()"
+      [lead]="lead()"
+    />
+
+    <!-- Layout editorial, sin cards: esta sección debe leerse distinta al resto. -->
+    <dl class="hobbies">
+      @for (hobby of hobbies(); track hobby.id) {
+        <div class="hobby">
+          <dt class="hobby__title">
+            <app-icon [name]="hobby.icon" />
+            {{ hobby.title }}
+          </dt>
+          <dd class="hobby__description">{{ hobby.description }}</dd>
+        </div>
+      }
+    </dl>
+  </div>
+</section>

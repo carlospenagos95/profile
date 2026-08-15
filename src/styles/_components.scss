@@ -1,0 +1,72 @@
+// Patrones visuales compartidos. Son clases globales —no componentes Angular— porque
+// solo aportan estilo: envolverlos en un componente añadiría indirección sin ninguna lógica.
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 2.75rem;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+
+    --icon-size: 1.125rem;
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+
+  .btn--primary {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    border: var(--border-width) solid transparent;
+
+    &:hover {
+      background-color: var(--color-accent-strong);
+      color: var(--color-on-accent);
+    }
+  }
+
+  .btn--ghost {
+    background-color: transparent;
+    color: var(--color-text);
+    border: var(--border-width) solid var(--color-border-strong);
+
+    &:hover {
+      color: var(--color-text);
+      border-color: var(--color-accent);
+    }
+  }
+
+  .card {
+    padding: var(--space-6);
+    background-color: var(--color-surface-raised);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .eyebrow {
+    display: block;
+    margin-bottom: var(--space-2);
+    color: var(--color-accent);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .lead {
+    max-width: 46ch;
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+  }
+}

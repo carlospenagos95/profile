@@ -1,0 +1,7 @@
+// Hoja global. El orden importa: `layers` declara la cascada antes que nada.
+@use 'styles/layers';
+@use 'styles/reset';
+@use 'styles/tokens';
+@use 'styles/base';
+@use 'styles/components';
+@use 'styles/utilities';

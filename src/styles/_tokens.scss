@@ -1,0 +1,136 @@
+// Design tokens. Custom properties (no variables SCSS) para poder cambiarlas en runtime
+// —tema claro/oscuro— y leerlas desde cualquier componente sin importar nada.
+@layer tokens {
+  :root {
+    // ── Tipografía ────────────────────────────────────────────────────────────
+    // Stack del sistema: cero peticiones de red, cero CLS, buen aspecto en las 3 plataformas.
+    --font-sans: ui-sans-serif, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: ui-monospace, 'Cascadia Mono', 'JetBrains Mono', Consolas, monospace;
+
+    // Escala fluida: min en 320px, max en ~1440px. Sin media queries para el texto.
+    --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+    --text-sm: clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
+    --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+    --text-lg: clamp(1.125rem, 1.06rem + 0.3vw, 1.25rem);
+    --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+    --text-2xl: clamp(1.5rem, 1.32rem + 0.9vw, 2rem);
+    --text-3xl: clamp(1.875rem, 1.55rem + 1.6vw, 2.75rem);
+    --text-4xl: clamp(2.25rem, 1.6rem + 3.2vw, 4rem);
+
+    --leading-tight: 1.15;
+    --leading-snug: 1.35;
+    --leading-normal: 1.65;
+    --tracking-tight: -0.02em;
+    --tracking-wide: 0.08em;
+
+    --weight-normal: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+
+    // ── Espaciado (escala 4px) ────────────────────────────────────────────────
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+    // Ritmo vertical de las secciones: crece con el viewport.
+    --space-section: clamp(3.5rem, 2rem + 7vw, 7rem);
+
+    // ── Layout ────────────────────────────────────────────────────────────────
+    --container-max: 68rem;
+    --container-narrow: 46rem;
+    --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+    --header-height: 4rem;
+
+    // ── Formas ────────────────────────────────────────────────────────────────
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.875rem;
+    --radius-full: 999px;
+    --border-width: 1px;
+
+    // ── Movimiento ────────────────────────────────────────────────────────────
+    --duration-fast: 120ms;
+    --duration-base: 220ms;
+    --duration-slow: 480ms;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+    // ── Color: tema claro ─────────────────────────────────────────────────────
+    // Neutros fríos con base azul + acento azul profundo. Contraste AA verificado.
+    --color-surface: #f6f8fc;
+    --color-surface-raised: #ffffff;
+    --color-surface-sunken: #e9eef7;
+    --color-text: #0d1b2e;
+    --color-text-muted: #4a5b73;
+    --color-border: #d3dded;
+    --color-border-strong: #adbdd4;
+    --color-accent: #12468f;
+    --color-accent-strong: #0b3068;
+    --color-accent-soft: #dfe9f8;
+    --color-on-accent: #ffffff;
+    --color-focus: #12468f;
+
+    // Degradado de marca: solo para el hero y detalles puntuales.
+    --gradient-brand: linear-gradient(135deg, #0b3068 0%, #12468f 45%, #2f7fd1 100%);
+    --color-glow: rgb(18 70 143 / 14%);
+
+    --shadow-sm: 0 1px 2px rgb(13 27 46 / 8%);
+    --shadow-md: 0 8px 22px -10px rgb(13 27 46 / 28%);
+
+    color-scheme: light dark;
+  }
+
+  // Tema oscuro por preferencia del sistema…
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --color-surface: #0a1524;
+      --color-surface-raised: #122034;
+      --color-surface-sunken: #060f1b;
+      --color-text: #e8eefa;
+      --color-text-muted: #9aabc4;
+      --color-border: #1e3149;
+      --color-border-strong: #334966;
+      --color-accent: #7db4f0;
+      --color-accent-strong: #a9d1f8;
+      --color-accent-soft: #16304d;
+      --color-on-accent: #06111f;
+      --color-focus: #7db4f0;
+
+      --gradient-brand: linear-gradient(135deg, #061626 0%, #0f3a6b 50%, #1f6bb8 100%);
+      --color-glow: rgb(125 180 240 / 16%);
+
+      --shadow-sm: 0 1px 2px rgb(0 0 0 / 45%);
+      --shadow-md: 0 10px 26px -12px rgb(0 0 0 / 70%);
+    }
+  }
+
+  // …y override explícito, para un futuro selector de tema.
+  :root[data-theme='dark'] {
+    --color-surface: #0a1524;
+    --color-surface-raised: #122034;
+    --color-surface-sunken: #060f1b;
+    --color-text: #e8eefa;
+    --color-text-muted: #9aabc4;
+    --color-border: #1e3149;
+    --color-border-strong: #334966;
+    --color-accent: #7db4f0;
+    --color-accent-strong: #a9d1f8;
+    --color-accent-soft: #16304d;
+    --color-on-accent: #06111f;
+    --color-focus: #7db4f0;
+
+    --gradient-brand: linear-gradient(135deg, #061626 0%, #0f3a6b 50%, #1f6bb8 100%);
+    --color-glow: rgb(125 180 240 / 16%);
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 45%);
+    --shadow-md: 0 10px 26px -12px rgb(0 0 0 / 70%);
+  }
+}

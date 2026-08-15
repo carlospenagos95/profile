@@ -1,0 +1,47 @@
+<section id="inicio" class="section hero" aria-labelledby="hero-titulo">
+  <div class="container hero__grid">
+    <div class="hero__main">
+      <p class="eyebrow">{{ profile().headline }}</p>
+      <h1 id="hero-titulo">{{ profile().name }}</h1>
+      <p class="lead hero__value">{{ profile().valueProposition }}</p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#contacto">
+          {{ ctaPrimaryLabel() }}
+          <app-icon name="arrow-right" />
+        </a>
+        <a class="btn btn--ghost" href="#servicios">{{ ctaSecondaryLabel() }}</a>
+      </div>
+
+      @if (profile().location; as location) {
+        <p class="hero__location">
+          <app-icon name="compass" />
+          {{ location }}
+        </p>
+      }
+    </div>
+
+    <div class="hero__aside">
+      @if (profile().avatar; as avatar) {
+        <figure class="hero__photo">
+          <!-- LCP: se precarga con `priority` en lugar de descubrirse tarde. -->
+          <img
+            [ngSrc]="avatar.src"
+            [attr.alt]="avatar.alt"
+            [width]="avatar.width"
+            [height]="avatar.height"
+            priority
+          />
+        </figure>
+      }
+
+      @if (profile().bio.length) {
+        <div class="hero__bio">
+          @for (paragraph of profile().bio; track $index) {
+            <p>{{ paragraph }}</p>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>
