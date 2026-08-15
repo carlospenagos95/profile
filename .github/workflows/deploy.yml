@@ -71,12 +71,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Instalar cloudflared
+        uses: cloudflare/setup-cloudflare@v1
+
+      - name: Verificar cloudflared
+        run: cloudflared --version
+
       - name: Configurar clave SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
-          # Host fijado por huella conocida: sin StrictHostKeyChecking=no.
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
 
@@ -99,18 +104,19 @@ jobs:
           IMAGE: ${{ needs.build-push.outputs.image }}
           GHCR_USER: ${{ github.actor }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+
         run: |
-          ssh -i ~/.ssh/id_deploy -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
-            IMAGE="$IMAGE" DEPLOY_PATH="$DEPLOY_PATH" GHCR_USER="$GHCR_USER" GHCR_TOKEN="$GHCR_TOKEN" \
-            'bash -euo pipefail -s' <<'REMOTE'
-          echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
-          cd "$DEPLOY_PATH"
-          # IMAGE apunta al tag del commit: el despliegue es reproducible y reversible.
-          IMAGE="$IMAGE" docker compose pull
-          IMAGE="$IMAGE" docker compose up -d --remove-orphans
-          docker image prune -f
-          docker logout ghcr.io
-          REMOTE
+          ssh \
+            -o ProxyCommand="cloudflared access ssh \
+              --hostname %h \
+              --service-token-id $CF_ACCESS_CLIENT_ID \
+              --service-token-secret $CF_ACCESS_CLIENT_SECRET" \
+            -i ~/.ssh/id_deploy \
+            -p 22 \
+            "$SSH_USER@$SSH_HOST" \
+            "echo 'SSH a través de Cloudflare funcionando'"
 
       - name: Comprobar que responde
         run: |
