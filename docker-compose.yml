@@ -17,7 +17,7 @@ services:
       traefik.http.routers.profile.rule: Host(`profile.carlos-po.dev`)
       traefik.http.routers.profile.entrypoints: web
       traefik.http.services.profile.loadbalancer.server.port: '80'
-      homepage.group: Servicios
+      homepage.group: Proyectos Personales
       homepage.name: Landing Personal Page
       homepage.icon: profile.png
       homepage.href: https://profile.carlos-po.dev
