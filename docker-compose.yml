@@ -19,7 +19,7 @@ services:
       traefik.http.services.profile.loadbalancer.server.port: '80'
       homepage.group: Proyectos Personales
       homepage.name: Landing Personal Page
-      homepage.icon: profile.png
+      homepage.icon: /icons/profile.png
       homepage.href: https://profile.carlos-po.dev
       homepage.description: Página personal
 
