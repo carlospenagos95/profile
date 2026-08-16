@@ -81,6 +81,25 @@ jobs:
           sudo dpkg -i cloudflared.deb
           cloudflared --version
 
+      - name: Diagnóstico Cloudflare Access
+        env:
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          echo "Hostname: $SSH_HOST"
+          echo "Client ID length: ${#CF_ACCESS_CLIENT_ID}"
+          echo "Client ID suffix: ${CF_ACCESS_CLIENT_ID: -7}"
+          echo "Client Secret length: ${#CF_ACCESS_CLIENT_SECRET}"
+
+          cloudflared --version
+
+          timeout 15s cloudflared access ssh \
+            --hostname "$SSH_HOST" \
+            --service-token-id "$CF_ACCESS_CLIENT_ID" \
+            --service-token-secret "$CF_ACCESS_CLIENT_SECRET" \
+            --loglevel debug || true
+
       - name: Verificar cloudflared
         run: cloudflared --version
 
@@ -119,7 +138,7 @@ jobs:
             --service-token-id "$CF_ACCESS_CLIENT_ID" \
             --service-token-secret "$CF_ACCESS_CLIENT_SECRET" \
             --loglevel debug || true
-            
+
       - name: Copiar docker-compose.yml al servidor
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
